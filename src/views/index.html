@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <style>
+        .preview-images img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 mt-3">
+                <h4>NodeJS upload images</h4>
+
+            <form 
+                action="/upload" 
+                class="mt-4"
+                method="POST"
+                enctype="multipart/form-data"
+                >
+            <div class="form-group">
+                <input type="file" name="file" id="input-files" class="form-control border">
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="preview-images"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let imagesPreview = function(input, placeToInsertImagePreview) {
+                if (input.files) {
+                    let filesAmount = input.files.length;
+                    for (let i = 0; i < filesAmount; i++) {
+                        let reader = new FileReader();
+                        reader.onload = function(event) {
+                            $($.parseHTML("<img>"))
+                            .attr("src", event.target.result)
+                            .appendTo(placeToInsertImagePreview);
+                        }
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+            }
+            $('#input-files').on('change', function() {
+                imagesPreview(this, "div.preview-images")
+            })
+        });
+    </script>
+
+</body>
+</html>
